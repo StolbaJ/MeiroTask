@@ -3,7 +3,8 @@
 import pytest
 from pydantic import ValidationError
 
-from models import Customer
+from models import Customer, AuthRequest, AuthResponse, BannerRequest, BulkBannerRequest
+
 
 class TestCustomer:
     """Tests for Customer model."""
@@ -131,3 +132,43 @@ class TestCustomer:
         )
         with pytest.raises(ValueError, match="Age must be between 18 and 65"):
             customer.validate_age(18, 65)
+
+
+class TestAPIModels:
+    """Tests for API request/response models."""
+
+    def test_auth_request(self):
+        """Test AuthRequest model."""
+        auth_req = AuthRequest(ProjectKey="test-project")
+        assert auth_req.ProjectKey == "test-project"
+
+    def test_auth_response(self):
+        """Test AuthResponse model."""
+        auth_resp = AuthResponse(AccessToken="test-token")
+        assert auth_resp.AccessToken == "test-token"
+
+    def test_banner_request(self):
+        """Test BannerRequest model."""
+        banner_req = BannerRequest(
+            VisitorCookie="26555324-53df-4eb1-8835-e6c0078bb2c0",
+            BannerId=42
+        )
+        assert banner_req.VisitorCookie == "26555324-53df-4eb1-8835-e6c0078bb2c0"
+        assert banner_req.BannerId == 42
+
+    def test_bulk_banner_request(self):
+        """Test BulkBannerRequest model."""
+        banner_requests = [
+            BannerRequest(
+                VisitorCookie="26555324-53df-4eb1-8835-e6c0078bb2c0",
+                BannerId=42
+            ),
+            BannerRequest(
+                VisitorCookie="12345678-1234-5678-9abc-123456789012",
+                BannerId=25
+            )
+        ]
+        bulk_req = BulkBannerRequest(Data=banner_requests)
+        assert len(bulk_req.Data) == 2
+        assert bulk_req.Data[0].BannerId == 42
+        assert bulk_req.Data[1].BannerId == 25

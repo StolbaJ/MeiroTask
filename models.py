@@ -1,6 +1,7 @@
 """Data models for the ShowAds data connector."""
 
 import re
+from typing import List
 from uuid import UUID
 from pydantic import BaseModel, Field, validator
 
@@ -40,3 +41,28 @@ class Customer(BaseModel):
         """Validate age against configurable limits."""
         if not min_age <= self.Age <= max_age:
             raise ValueError(f'Age must be between {min_age} and {max_age}')
+
+
+class AuthRequest(BaseModel):
+    """Authentication request model."""
+
+    ProjectKey: str
+
+
+class AuthResponse(BaseModel):
+    """Authentication response model."""
+
+    AccessToken: str
+
+
+class BannerRequest(BaseModel):
+    """Single banner request model."""
+
+    VisitorCookie: str
+    BannerId: int
+
+
+class BulkBannerRequest(BaseModel):
+    """Bulk banner request model."""
+
+    Data: List[BannerRequest]
