@@ -28,21 +28,21 @@ The application follows a modular architecture with clear separation of concerns
 
 ## Requirements
 
-- Python 3.13
+- Python 3.11
 - Docker (optional, for containerized deployment)
 
 ### Docker Deployment
 
 1. Build and run with Docker Compose:
 ```bash
-docker-compose up --build
+docker compose --profile prod up --build
+```
+2. Build and run tests:
+```bash
+docker compose --profile dev up  --build
 ```
 
-2. Or build and run manually:
-```bash
-docker build -t showads-connector .
-docker run -v $(pwd)/data:/app/data showads-connector /app/data/data.csv
-```
+
 
 ## Usage
 
@@ -173,7 +173,7 @@ The test suite is divided into two categories:
 
 **Integration Tests** (`@pytest.mark.integration`):
 - **test_data_connector.py** - End-to-end orchestration of CSV processing → validation → API submission
-
+```
 ## Performance
 
 The application is optimized for performance:
@@ -191,19 +191,7 @@ The application provides monitoring capabilities:
 - **API Metrics**: Success/failure rates, response times
 - **Error Tracking**: Detailed error logging and categorization
 
-## Deployment
 
-### Production Deployment
-
-1. Build the production image:
-```bash
-docker compose up --build
-```
-### Test Deployment
-
-```bash
-docker compose --profile dev up  --build
-```
 
 
 
