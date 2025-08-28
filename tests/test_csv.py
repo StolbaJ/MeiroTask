@@ -1,8 +1,8 @@
-"""Tests 4 CSV processor."""
+"""Tests for CSV processor."""
+
 
 import pandas as pd
 import pytest
-from unittest.mock import Mock
 
 from config import Config
 from csv_processing import CSVProcessor
@@ -13,9 +13,9 @@ class TestCSVProcessor:
     """Tests for CSVProcessor class."""
 
     @pytest.fixture
-    def config(self):
+    def config(self, mocker):
         """Create a test configuration."""
-        config = Mock(spec=Config)
+        config = mocker.Mock(spec=Config)
         config.MIN_AGE = 18
         config.MAX_AGE = 65
         return config
