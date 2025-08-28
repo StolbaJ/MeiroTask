@@ -45,13 +45,11 @@ class Customer(BaseModel):
 
 class AuthRequest(BaseModel):
     """Authentication request model."""
-
     ProjectKey: str
 
 
 class AuthResponse(BaseModel):
     """Authentication response model."""
-
     AccessToken: str
 
 

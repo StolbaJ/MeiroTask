@@ -37,13 +37,17 @@ class ShowAdsClient:
         self.session.mount("https://", adapter)
 
     def _is_token_valid(self) -> bool:
-        """Check if the current token is valid and not expired."""
         if not self.access_token or not self.token_expires_at:
             return False
 
         # Add 1 minute buffer before expiration
         return datetime.now() < (self.token_expires_at - timedelta(minutes=1))
 
+    def _ensure_authenticated(self) -> bool:
+        if self._is_token_valid():
+            return True
+
+        return self.authenticate()
     def authenticate(self) -> bool:
         """Authenticate with the ShowAds API and obtain access token."""
         try:
@@ -69,13 +73,6 @@ class ShowAdsClient:
         except Exception as e:
             logger.error(f"Authentication error: {str(e)}")
             return False
-
-    def _ensure_authenticated(self) -> bool:
-        """Ensure we have a valid token, authenticate if needed."""
-        if self._is_token_valid():
-            return True
-
-        return self.authenticate()
 
     def send_banner_request(self, visitor_cookie: str, banner_id: int) -> bool:
         """Send a single banner request to the ShowAds API."""
@@ -154,5 +151,4 @@ class ShowAdsClient:
             return False
 
     def close(self):
-        """Close the session."""
         self.session.close()

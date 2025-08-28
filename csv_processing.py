@@ -75,7 +75,6 @@ class CSVProcessor:
 
         for index, row in chunk.iterrows():
             self.total_count += 1
-
             customer, is_valid = self.validate_customer_row(row)
 
             if is_valid and customer:
