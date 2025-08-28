@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  showads-connector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: showads-data-connector
+    environment:
+      # ShowAds API Configuration
+      - SHOWADS_API_URL=https://golang-assignment-968918017632.europe-west3.run.app
+      - PROJECT_KEY=meiro-data-connector-project
+      
+      # Age validation limits (configurable)
+      - MIN_AGE=18
+      - MAX_AGE=120
+      
+      # Batch processing settings
+      - BATCH_SIZE=1000
+      - MAX_RETRIES=3
+      - RETRY_DELAY=1
+      
+      # Logging configuration
+      - LOG_LEVEL=INFO
+    volumes:
+      # Mount the data directory to access CSV files
+      - ./data:/app/data:ro
+      # Mount logs directory for persistent logging
+      - ./logs:/app/logs
+      #H
+    command: ["main.py", "/app/data/data.csv"]
+    restart: unless-stopped
+    networks:
+      - showads-network
+    profiles:
+      - prod
+
+  # Development service for testing
+  showads-connector-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: showads-data-connector-dev
+    environment:
+      - SHOWADS_API_URL=https://golang-assignment-968918017632.europe-west3.run.app
+      - PROJECT_KEY=meiro-data-connector-dev
+      - MIN_AGE=18
+      - MAX_AGE=120
+      - BATCH_SIZE=100
+      - MAX_RETRIES=3
+      - RETRY_DELAY=1
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["-m", "pytest", "tests/"]
+    networks:
+      - showads-network
+    profiles:
+      - dev
+
+networks:
+  showads-network:
+    driver: bridge
