@@ -16,7 +16,7 @@ services:
       
       # Batch processing settings
       - BATCH_SIZE=1000
-      - MAX_RETRIES=3
+      - MAX_RETRIES=10
       - RETRY_DELAY=1
       
       # Logging configuration
