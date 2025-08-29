@@ -39,7 +39,6 @@ class Config:
     def get_log_level() -> str:
         return os.getenv('LOG_LEVEL', 'INFO')
 
-    # Properties for backward compatibility
     @property
     def SHOWADS_API_URL(self) -> str:
         return self.get_showads_api_url()

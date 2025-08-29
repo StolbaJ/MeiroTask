@@ -20,7 +20,7 @@ services:
       - RETRY_DELAY=1
       
       # Logging configuration
-      - LOG_LEVEL=INFO
+      - LOG_LEVEL=CRITICAL
     volumes:
       # Mount the data directory to access CSV files
       - ./data:/app/data:ro

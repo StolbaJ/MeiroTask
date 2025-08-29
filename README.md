@@ -33,11 +33,14 @@ The application follows a modular architecture with clear separation of concerns
 
 ### Docker Deployment
 
-1. Build and run with Docker Compose:
+1. Build and run with :
 ```bash
 docker compose --profile prod up --build
+2. run with custom parameters:
+```bash
+docker compose run -e MIN_AGE=25 showads-connector
 ```
-2. Build and run tests:
+3.Build and run tests:
 ```bash
 docker compose --profile dev up  --build
 ```

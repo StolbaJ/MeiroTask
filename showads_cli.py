@@ -84,7 +84,6 @@ class ShowAdsClient:
                 VisitorCookie=visitor_cookie,
                 BannerId=banner_id
             )
-
             headers = {"Authorization": f"Bearer {self.access_token}"}
 
             response = self.session.post(
