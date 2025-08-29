@@ -37,7 +37,7 @@ The application follows a modular architecture with clear separation of concerns
 ```bash
 docker compose --profile prod up --build
 ```
-2. run with custom parameters:
+2. Run with custom parameters:
 ```bash
 docker compose run -e MIN_AGE=25 showads-connector
 ```
